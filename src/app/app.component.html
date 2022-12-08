@@ -1,0 +1,144 @@
+<div class="container-fluid vh-100" style="overflow-y: auto; overflow-x: hidden;" [ngClass]="themeService.theme" oteosResolution >
+
+  <div class="row theme-header" 
+    [ngClass]="{
+      'theme-header--showCacheTitle': navbarOptions.showCacheTitle,
+      'theme-header--not-showCacheTitle': !navbarOptions.showCacheTitle
+    }"
+  >
+    <div class="col-12 p-0">
+      <div class="row">
+        <div class="col-12 text-right">
+          <a class="theme-header__logo-text" href="#">{{'OTEOS ' + ('label.general.oteos.company' | oteosTranslate) }}</a>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="navbarOptions.showCacheTitle">
+        <div class="col-12 text-center theme-header__cache-container">
+          <span class="theme-header__cache-container--cache-title">{{(cacheService.getElement('title') ? cacheService.getElement('title') : '&nbsp;')}}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12"
+         *ngIf="(
+          navbarOptions.showLinealMenu &&
+          resolutionService.size == constantsService.OteosResolutionConstants.WEB &&
+          cacheService.getElement('menuItems').length <= 7
+         )"
+         >
+          <ul class="theme-header__menu" 
+            *ngFor="let item of cacheService.getElement('menuItems'); let i = index" (mouseleave)="onLeftMenu()">
+            <li>
+              <div class="btn theme-header__menu--menu-item" 
+               [ngClass]="{
+                'theme-header__menu--menu-item--sub-item-hover': activeHover && subMenuItems.length > 0 && selectedSubTitle == item.text,
+                'theme-header__menu--menu-item--first-only1': i == 0 && cacheService.getElement('menuItems').length == 1 && subMenuItems.length == 0,
+                'theme-header__menu--menu-item--first-only1-hover': i == 0 && subMenuItems.length > 0 && selectedSubTitle == item.text && cacheService.getElement('menuItems').length == 1,
+                'theme-header__menu--menu-item--first': i == 0 && cacheService.getElement('menuItems').length > 1,
+                'theme-header__menu--menu-item--first-hover': i == 0 && subMenuItems.length > 0 && selectedSubTitle == item.text && cacheService.getElement('menuItems').length > 1,
+                'theme-header__menu--menu-item--mid': i > 0 && i < (cacheService.getElement('menuItems').length - 1),
+                'theme-header__menu--menu-item--last': i == (cacheService.getElement('menuItems').length - 1) && cacheService.getElement('menuItems').length > 1,
+                'theme-header__menu--menu-item--last-hover': i == (cacheService.getElement('menuItems').length - 1) && subMenuItems.length > 0 && selectedSubTitle == item.text
+               }"
+               (click)="!item.children && onMenuItemClick(item)" (mouseenter)="onMenuItemHover(item)" >
+                <span>{{translateService.getTranslate(item.text)}}</span>
+                <i *ngIf="item.children" class="fa fa-caret-down" style="padding-left: 7.5px;"></i>
+                
+                <div class="theme-header__sub-menu"
+                  *ngIf="subMenuItems.length > 0 && selectedSubTitle == item.text" 
+                  oteosClickOutside [avoidFirstTime]="false" (clickOutSide)="onLeftMenu()" >
+                  <ng-container *ngFor="let subItem of subMenuItems; let i = index" >
+                    <div class="btn theme-header__sub-menu--sub-menu-item"
+                    [ngClass]="{
+                      'theme-header__sub-menu--sub-menu-item--last': i == subMenuItems.length - 1
+                    }"
+                    (click)="onMenuItemClick(subItem)" >
+                      <span>{{translateService.getTranslate(subItem.text)}}</span>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 text-right"
+         *ngIf="((
+         (resolutionService.size != constantsService.OteosResolutionConstants.WEB) ||
+         (resolutionService.size == constantsService.OteosResolutionConstants.WEB &&  cacheService.getElement('menuItems').length > 7)
+         ) ||
+         !navbarOptions.showLinealMenu)"
+        >
+          <button class="btn btn-oteos" style="margin-right: 5px; margin-top: 2.5px;" (click)="openBarsMenu()">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <oteos-detail *ngIf="showHamburguerMenu" (close)="closeBarsMenu()"
+      [showTitle]="false"
+      [clickOutsideEnabled]="true"
+      [showOverlay]="false"
+      [forceCloseNow]="hamburgerMenuForceClose" >
+
+      <h1 detail-title>Detalle menu</h1>
+      <div detail-content class="theme-hamburguer-menu">
+        <div class="row theme-hamburguer-menu__header" (click)="onForceClose_Hamburguer()">
+          <div class="col-12 theme-hamburguer-menu__header--content">
+            <span class="theme-hamburguer-menu__header--content--text">Menu</span>
+          </div>
+        </div>
+        <div class="theme-hamburguer-menu__content">
+          <div class="row" *ngFor="let item of cacheService.getElement('menuItems'); let i = index" (click)="onSelectHamburguerMenuAction(item)">
+            <div class="col-12 theme-hamburguer-menu__content--item">
+              <div class="row theme-hamburguer-menu__content--item--content">
+                <div class="col-1 text-center">
+                  <i class="{{item.icon}} theme-hamburguer-menu__content--item--content--icon"></i>
+                </div>
+                <div class="col-11">
+                  <span class="theme-hamburguer-menu__content--item--content--text">{{ translateService.getTranslate(item.text) }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-12 theme-hamburguer-menu__content--submenu" *ngIf="selectedSubTitle == item.text && subMenuItems.length > 0">
+              <div class="row theme-hamburguer-menu__content--submenu--item" *ngFor="let subItem of subMenuItems; let i = index" (click)="onMenuItemClick_Hamburguer(subItem)">
+                <div class="col-12 theme-hamburguer-menu__content--submenu--item--content">
+                  <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-1 text-center">
+                      <i class="{{subItem.icon}} theme-hamburguer-menu__content--submenu--item--content--icon"></i>
+                    </div>
+                    <div class="col-10">
+                      <span class="theme-hamburguer-menu__content--submenu--item--content--text">{{ translateService.getTranslate(subItem.text) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="row vh-100" (click)="onForceClose_Hamburguer()">
+        </div>
+      </div>
+    </oteos-detail>
+  </div>
+  
+  <div class="row theme-content">
+    <div class="col-12 p-1">
+      <div class="row">
+        <div class="col-12">
+          <div class="p-1">
+            <router-outlet content></router-outlet>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<oteos-toast [orientation]="constantsService.OteosToastConstants.ORIENTATION_TOP_RIGHT" [block]="false"></oteos-toast>
+

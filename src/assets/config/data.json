@@ -1,0 +1,9 @@
+{
+    "title": "Armeria Tfg Lorenzo",
+    "theme": "theme-blue",
+    "pwdRecoveryExpire": 30,
+    "navbarOptions": {
+        "showCacheTitle": true,
+        "showLinealMenu": true
+    }
+}

@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="row">
+      <div class="col-12 text-right">
+        <button class="btn btn-oteos" (click)="onClickComeBack()">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+
+        <oteos-card [showTitle]="true" >
+          <p card-title>{{translateService.getTranslate('label.register.detail.new')}}</p>
+
+          <div card-content class="row">
+            <div class="col-12">
+              <form>
+                <div class="row form-group">
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="newUser.userName"
+                      [ngModelOptions]="{standalone: true}"
+                      [label]="translateService.getTranslate('label.register.form.name')"
+                      [showLabel]="true"
+                      [require]="true" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="newUser.email"
+                      [ngModelOptions]="{standalone: true}"
+                      [label]="translateService.getTranslate('label.register.form.email')"
+                      [showLabel]="true"
+                      [require]="true" >
+                    </oteos-input>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="newUser.password"
+                      [ngModelOptions]="{standalone: true}"
+                      [label]="translateService.getTranslate('label.register.form.pwd')"
+                      [showLabel]="true"
+                      [type]="type_input_pwd"
+                      [icon]="type_input_pwd == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye' "
+                      [showIcon]="true" 
+                      [enabledIconClick]="true"
+                      [require]="true"
+                      (iconClick)="showHidePassowrd(false)" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="pwdConfirm"
+                      [ngModelOptions]="{standalone: true}"
+                      [label]="translateService.getTranslate('label.register.form.pwd.confirm')"
+                      [showLabel]="true" 
+                      [type]="type_input_pwd_confirm"
+                      [icon]="type_input_pwd_confirm == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye' "
+                      [showIcon]="true" 
+                      [enabledIconClick]="true"
+                      [require]="true"
+                      (iconClick)="showHidePassowrd(true)" >
+                    </oteos-input>
+                  </div>
+                </div>
+  
+                <div class="row form-group">
+                  <div class="col-12">
+                    <button class="btn btn-block btn-oteos" (click)="onClickFormButon()">{{translateService.getTranslate('label.form.btn.new')}}</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </oteos-card>
+
+      </div>
+    </div>
+
+  </div>
+</div>

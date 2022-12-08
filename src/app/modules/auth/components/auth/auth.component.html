@@ -1,0 +1,60 @@
+<div class="row">
+  <div class="col-12">
+
+    <div class="row">
+      <div class="col-12 mt-5">
+        <oteos-login
+          [labelUser]="translateService.getTranslate('label.auth.login.user')"
+          [labelPassword]="translateService.getTranslate('label.auth.login.pwd')"
+          [labelCancel]="translateService.getTranslate('label.auth.login.btn.cancel')"
+          [labelConfirm]="translateService.getTranslate('label.auth.login.btn.confirm')"
+          [labelPwdRecovery]="translateService.getTranslate('label.auth.login.pwd.recovery')"
+          [labelUserRegister]="translateService.getTranslate('label.auth.login.user.register')"
+          [showLabelPwdRecovery]="true"
+          [showLabelUserRegister]="true"
+          (cancel)="onCancelButton()"
+          (confirm)="onConfirmButton($event)"
+          (pwdRecovery)="onPwdRecovery()"
+          (registerUser)="onRegisterUser()" >
+        </oteos-login> 
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <oteos-modal 
+         [id]="'pwd-recovery'"
+         [type]="constantsService.OteosModalTypeConstants.CONFIRM" 
+         [labelConfirm]="translateService.getTranslate('label.modal.btn.confirm')"
+         [labelClose]="translateService.getTranslate('label.modal.btn.cancel')"
+         (close)="onCloseModal($event)"
+         (accept)="onConfirmModal($event)" >
+          <div modal-title>
+            {{translateService.getTranslate('label.auth.modal.pwd.recovery.title')}}
+          </div>
+          <div modal-content>
+            <div class="row">
+              <div class="col-12">
+                <oteos-input
+                  [(ngModel)]="emailRecovery"
+                  [ngModelOptions]="{standalone: true}"
+                  [label]="translateService.getTranslate('label.auth.modal.pwd.recovery.input.label')"
+                  [showLabel]="true"
+                  [icon]="'fa fa-at'"
+                  [showIcon]="true" 
+                  [enabledIconClick]="false"
+                  [require]="true"
+                  [placeHolder]="translateService.getTranslate('label.auth.modal.pwd.recovery.input.placeholder')" >
+                </oteos-input>
+              </div>
+            </div>
+          </div>
+        </oteos-modal>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
