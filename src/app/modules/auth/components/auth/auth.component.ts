@@ -63,9 +63,9 @@ export class AuthComponent implements OnInit {
         this.cacheService.setElement('menuItems', menu);
         
         if (user.role.name == "ADMIN" || user.role.name == "SUPERADMIN") {
-          this.router.navigate(['users']);
+          this.router.navigate(['products']);
         } else {
-          this.router.navigate(['options']);
+          this.router.navigate(['products-list']);
         }
       }, error: () => {
         this.toastService.addErrorMessage(

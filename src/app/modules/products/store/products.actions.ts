@@ -20,6 +20,16 @@ export class DeleteProduct {
   constructor(public payload: { code: string }) {}
 }
 
+export class SetImageProduct {
+  static readonly type = "[Products] Set product image";
+  constructor(public payload: { code: string, file: File }) {}
+}
+
+export class FetchCategories {
+  static readonly type = "[Products] Fetch all categories";
+  constructor(public payload: { filter: any }) {}
+}
+
 export class SubscribeProductsWS {
   static readonly type = "[Products] Suscribe products WS";
 }

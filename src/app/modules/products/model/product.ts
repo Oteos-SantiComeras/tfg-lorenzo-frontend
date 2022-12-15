@@ -9,6 +9,6 @@ export class Product {
   tax: number;
   publicSellPrice: number;
   stock: number;
-  image: string;
+  imageUrl?: string;
   typeObj?: string;
 }

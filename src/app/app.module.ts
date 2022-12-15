@@ -1,3 +1,6 @@
+import { NewsLetterModule } from './modules/news-letter/news-letter.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { UsersModule } from './modules/users/users.module';
@@ -22,6 +25,8 @@ import { AuthGuard } from './services/auth.guard.service';
 import { TokenInterceptor } from './modules/interceptors/token.interceptor';
 import { ErrorInterceptor } from './modules/interceptors/error.interceptor';
 import { ApiInterceptor } from './modules/interceptors/api.interceptor';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CartModule } from './modules/cart/cart.module';
 
 export function configFactory(provider: OteosConfigService) {
   return () => provider.getDataFromJson('assets/config/data.json');
@@ -46,6 +51,7 @@ export function translateFactory(provider: OteosTranslateService) {
       key: ["auth"],
     }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxPaginationModule,
     OteosComponentsLibModule,
     SharedModule,
     AuthModule,
@@ -54,6 +60,10 @@ export function translateFactory(provider: OteosTranslateService) {
     UsersModule,
     OptionsModule,
     CategoriesModule,
+    ProductsModule,
+    CartModule,
+    OrdersModule,
+    NewsLetterModule,
   ],
   providers: [
     WsBackendService,

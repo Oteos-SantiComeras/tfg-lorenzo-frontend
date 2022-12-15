@@ -1,0 +1,81 @@
+<div class="row products-list">
+  <div class="col-12">
+
+    <div class="row products-list__filter-container">
+      <div class="col-3">
+        <oteos-input
+          [(ngModel)]="filter.code"
+          [ngModelOptions]="{standalone: true}"
+          [label]="translateService.getTranslate('label.products-list.filter.code.placeholder')"
+          [showLabel]="false"
+          [placeHolder]="translateService.getTranslate('label.products-list.filter.code.placeholder')"
+          [require]="false" >
+        </oteos-input>
+      </div>
+      <div class="col-3">
+        <oteos-input
+          [(ngModel)]="filter.name"
+          [ngModelOptions]="{standalone: true}"
+          [label]="translateService.getTranslate('label.products-list.filter.name.placeholder')"
+          [showLabel]="false"
+          [placeHolder]="translateService.getTranslate('label.products-list.filter.name.placeholder')"
+          [require]="false" >
+        </oteos-input>
+      </div>
+      <div class="col-3">
+        <select class="form-control" [(ngModel)]="filter.category">
+          <option [value]="undefined">Todos</option>
+          <option *ngFor="let c of categoriesList" [ngValue]="c.name">{{c.name}}</option>
+        </select>
+      </div>
+      <div class="col-3 text-right">
+        <button class="btn btn-oteos mr-1" (click)="clearFilter()">
+          <i class="fa fa-close"></i>
+        </button>
+
+        <button class="btn btn-oteos" (click)="search()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row products-list__list-container" >
+      <div class="col-2" *ngFor="let item of productsList | paginate: { itemsPerPage: itemsPerPage, currentPage: page }">
+        <div class="products-list__list-container--item">
+          <div class="products-list__list-container--item--title-container" (click)="onClickGoToProductDetail(item)">
+            <span class="products-list__list-container--item--title-container--title">{{item.name}}</span>
+          </div>
+          <div class="products-list__list-container--item--image-container" (click)="onClickGoToProductDetail(item)">
+            <img [src]="item.imageUrl" height="200" *ngIf="item.imageUrl">
+          </div>
+          <div class="products-list__list-container--item--price-container">
+            <span class="products-list__list-container--item--price-container--price">{{translateService.getTranslate('label.products-list.list.item.pvp')}}: {{item.publicSellPrice}} €</span>
+          </div>
+          <div>
+            <div class="products-list__list-container--item--btn-container" *ngIf="item.stock > 0">
+              <button class="btn btn-success btn-block" (click)="onClickAddToCartBtn(item)">
+                <i class="fa fa-shopping-cart" style="font-size: 22px;"></i>
+              </button>
+            </div>
+            <div class="products-list__list-container--item--btn-container" *ngIf="item.stock <= 0">
+              <h5 class="products-list__list-container--item--btn-container--out-of-stock">
+                {{translateService.getTranslate('label.products-list.list.no-stock.text')}}
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row products-list__pagination-container" *ngIf="productsList && productsList.length > 0 && productsList.length > itemsPerPage">
+      <div class="col-12 text-center">
+        <pagination-controls 
+          [previousLabel]="translateService.getTranslate('label.pagination.previous')"
+          [nextLabel]="translateService.getTranslate('label.pagination.next')"
+          (pageChange)="page = $event" >
+        </pagination-controls>
+      </div>
+    </div>
+
+  </div>
+</div>

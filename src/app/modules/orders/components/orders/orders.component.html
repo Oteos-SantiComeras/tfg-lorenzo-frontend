@@ -1,0 +1,361 @@
+<!-- SEARCH FILTER -->
+<div class="row" *ngIf="showMode && (showMode == 'table' || showMode == 'block-list')">
+  <div class="col-12">
+    <oteos-accordion [title]="translateService.getTranslate('label.general.filter')" [open]="false">
+
+      <div content-accordion>
+        <div class="row">
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter._id" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.id')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.name" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.name')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.secondName" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.secondName')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.email" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.email')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.country" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.country')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.address" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.address')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+          <div class="col-3">
+            <oteos-input [(ngModel)]="filter.zipCode" [ngModelOptions]="{standalone: true}"
+              [label]="translateService.getTranslate('label.manage-orders.cols.zipCode')" [showLabel]="true"
+              [require]="false">
+            </oteos-input>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 text-right">
+            <button class="btn btn-oteos mr-1" (click)="clearFilter()">
+              <i class="fa fa-close"></i>
+            </button>
+
+            <button class="btn btn-oteos" (click)="search()">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </oteos-accordion>
+  </div>
+</div>
+
+<!-- Table and Block List View -->
+<div class="row" *ngIf="showMode && (showMode == 'table' || showMode == 'block-list')">
+  <div class="col-12">
+
+    <div class="row">
+      <div class="col-10 text-left">
+        <button class="btn btn-oteos" (click)="changeTableMode()">
+          <i class="fa fa-table"></i>
+        </button>
+        <button class="ml-1 btn btn-oteos" (click)="changeBlockListMode()">
+          <i class="fa fa-th-large"></i>
+        </button>
+      </div>
+      <div class="col-2 text-right">
+      </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="showMode == 'block-list'">
+      <div class="col-12">
+        <oteos-block-list [blockItems]="blockItems"
+          [labelTotalResults]="translateService.getTranslate('label.pagination.total.elements')"
+          [labelNoResults]="translateService.getTranslate('label.pagination.no.elements')" [showTotalItems]="true"
+          [showHeader]="false" [showInfoAdditional]="false" [showActions]="true" [showBorder]="true"
+          [canSelectItems]="false" [pagination]="totalItemsPage"
+          [previousLabel]="translateService.getTranslate('label.pagination.previous')"
+          [nextLabel]="translateService.getTranslate('label.pagination.next')" (itemSelected)="selectItem($event)"
+          (actionSelected)="getAction($event)">
+
+          <ng-template #templateHeader let-item="item">
+
+          </ng-template>
+
+          <ng-template #templateInfoAdditional let-item="item">
+
+          </ng-template>
+
+          <ng-template #templateData let-item="item">
+            <div class="row">
+              <div class="col-2">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.id')"
+                  [value]="item._id">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.paidOut')"
+                  [value]="item.paidOut">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.name')"
+                  [value]="item.name">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.secondName')"
+                  [value]="item.secondName">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-2">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.email')"
+                  [value]="item.email">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.phone')"
+                  [value]="item.phone">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.country')"
+                  [value]="item.country">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-2">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.address')"
+                  [value]="item.address">
+                </oteos-block-list-data-item>
+              </div>
+              <div class="col-1">
+                <oteos-block-list-data-item [label]="translateService.getTranslate('label.manage-orders.cols.zipCode')"
+                  [value]="item.zipCode">
+                </oteos-block-list-data-item>
+              </div>
+            </div>
+          </ng-template>
+        </oteos-block-list>
+      </div>
+    </div>
+
+    <div class="row mt-3" *ngIf="showMode == 'table'">
+      <div class="col-12">
+        <oteos-table [cols]="cols" [tableItems]="tableItems"
+          [labelTotalResults]="translateService.getTranslate('label.pagination.total.elements')"
+          [labelNoResults]="translateService.getTranslate('label.pagination.no.elements')" [showTotalItems]="true"
+          [showTableIndex]="true" [canSelectItems]="false" [pagination]="totalItemsPage"
+          [previousLabel]="translateService.getTranslate('label.pagination.previous')"
+          [nextLabel]="translateService.getTranslate('label.pagination.next')" (itemSelected)="selectItem($event)"
+          (actionSelected)="getAction($event)" (closeOptions)="onCloseOptions($event)">
+
+          <ng-template #templateRow let-item="item" let-cols="cols">
+            <td *ngFor="let col of cols" [ngSwitch]="col.label">
+              <span *ngSwitchCase="translateService.getTranslate('label.manage-orders.cols.paidOut')">
+                {{item[col.property] ? 'SÍ' : 'No'}}
+              </span>
+              <span *ngSwitchDefault>
+                {{item[col.property]}}
+              </span>
+            </td>
+          </ng-template>
+        </oteos-table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Create and Update Form View -->
+<div class="row" *ngIf="showMode && showMode == 'form'">
+  <div class="col-12">
+
+    <div class="row">
+      <div class="col-6 text-left">
+
+      </div>
+      <div class="col-6 text-right">
+        <button class="btn btn-oteos" (click)="closeForm()">
+          <i class="fa fa-arrow-left"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <oteos-card [showTitle]="true">
+          <p card-title>{{
+            manageMode == 'new' ?
+            translateService.getTranslate('label.manage-orders.detail.new') :
+            translateService.getTranslate('label.manage-orders.detail.update') + ': ' + orderSelected._id }}
+          </p>
+          <div card-content class="row">
+            <div class="col-12">
+              <form>
+                <div class="row form-group">
+                  <div class="col-3">
+                      <oteos-input 
+                        [(ngModel)]="newOrder.name"
+                        [ngModelOptions]="{standalone: true}"
+                        [readOnly]="true"
+                        [label]="translateService.getTranslate('label.manage-orders.form.name')" 
+                        [showLabel]="true"
+                        [require]="true">
+                      </oteos-input>
+                    </div>
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.secondName" 
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.secondName')" 
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.email" 
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.email')" 
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.phone" 
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.phone')" 
+                      [type]="'number'"
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.country"
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.country')" 
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.address"
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.address')" 
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                  <div class="col-3">
+                    <oteos-input 
+                      [(ngModel)]="newOrder.zipCode"
+                      [ngModelOptions]="{standalone: true}"
+                      [readOnly]="true"
+                      [label]="translateService.getTranslate('label.manage-orders.form.zipCode')" 
+                      [type]="'number'"
+                      [showLabel]="true"
+                      [require]="true">
+                    </oteos-input>
+                  </div>
+                </div>
+
+                <div class="row form-group">
+                  <div class="col-12">
+                    <h5>{{translateService.getTranslate('label.manage-orders.form.cart')}}</h5>
+                  </div>
+                  <div class="col-12">
+                    <table class="table">
+                      <thead>
+                        <th></th>
+                        <th>{{translateService.getTranslate('label.cart.cols.product')}}</th>
+                        <th>{{translateService.getTranslate('label.cart.cols.amount')}}</th>
+                        <th>{{translateService.getTranslate('label.cart.cols.unit-price')}}</th>
+                        <th>{{translateService.getTranslate('label.cart.cols.total-price')}}</th>
+                        <th>{{translateService.getTranslate('label.cart.cols.total-price-tax')}}</th>
+                      </thead>
+                      <tbody *ngIf="newOrder.cart.products && newOrder.cart.products.length > 0">
+                        <tr *ngFor="let product of newOrder.cart.products; let i = index">
+                          <td><img [src]="serverUrl + product.code + '.jpeg'" height="50" width="50" *ngIf="serverUrl"></td>
+                          <td>{{product.name}}</td>
+                          <td>{{newOrder.cart.amounts[i]}}</td>
+                          <td>{{product.price}} €</td>
+                          <td>{{(product.price * newOrder.cart.amounts[i])}}</td>
+                          <td>{{getTotalPriceWithTaxsOfProduct(product, newOrder.cart.amounts[i])}} €</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="row" *ngIf="newOrder.cart">
+                  <div class="col-12" style="text-align: right;">
+                    <span style="font-weight: bold;">Total productos: </span><span>{{newOrder.cart.totalItems}}</span>
+                  </div>
+                  <div class="col-12" style="text-align: right;">
+                    <span style="font-weight: bold;">Precio total: </span><span>{{newOrder.cart.totalPrice}} €</span>
+                  </div>
+                  <div class="col-12" style="text-align: right;">
+                    <span style="font-weight: bold;">Precio total (Iva): </span><span>{{newOrder.cart.totalPriceTaxs}} €</span>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </oteos-card>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Confirm Modal Delete -->
+<div class="row">
+  <div class="col-12">
+
+    <oteos-modal [id]="'delete-cart'" [type]="constantsService.OteosModalTypeConstants.CONFIRM"
+      [labelConfirm]="translateService.getTranslate('label.modal.btn.confirm')"
+      [labelClose]="translateService.getTranslate('label.modal.btn.cancel')" (close)="onCloseModal($event)"
+      (accept)="onConfirmModal($event)">
+      <div modal-title>{{translateService.getTranslate('label.manage-orders.modal.delete.title')}}</div>
+      <div modal-content>
+        <div class="row">
+          <div class="col-12">
+            <span *ngIf="orderSelected">{{translateService.getTranslate('label.manage-orders.modal.delete.content')}}:
+              {{orderSelected._id}}?</span>
+          </div>
+        </div>
+      </div>
+    </oteos-modal>
+
+  </div>
+</div>

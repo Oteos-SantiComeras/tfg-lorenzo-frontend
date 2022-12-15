@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-12">
+    
+    <div class="row">
+      <div class="col-12">
+        <oteos-card
+            [showTitle]="true" >
+            <p card-title>{{translateService.getTranslate('label.orders.card.title')}}</p>
+            <div card-content class="row">
+              <div class="col-12">
+                
+                <div class="row">
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="order.name"
+                      [label]="translateService.getTranslate('label.orders.form.name')"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="order.secondName"
+                      [label]="translateService.getTranslate('label.orders.form.secondName')"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                </div>
+  
+                <div class="row mt-1">
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="order.email"
+                      [label]="translateService.getTranslate('label.orders.form.email')"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-6">
+                    <oteos-input
+                      [(ngModel)]="order.phone"
+                      [label]="translateService.getTranslate('label.orders.form.phone')"
+                      [type]="'number'"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                </div>
+  
+                <div class="row mt-1">
+                  <div class="col-4">
+                    <oteos-input
+                      [(ngModel)]="order.country"
+                      [label]="translateService.getTranslate('label.orders.form.country')"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-4">
+                    <oteos-input
+                      [(ngModel)]="order.address"
+                      [label]="translateService.getTranslate('label.orders.form.address')"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                  <div class="col-4">
+                    <oteos-input
+                      [(ngModel)]="order.zipCode"
+                      [label]="translateService.getTranslate('label.orders.form.zipCode')"
+                      [type]="'number'"
+                      [showLabel]="true" >
+                    </oteos-input>
+                  </div>
+                </div>
+
+                <div class="row" style="padding-top: 25px;">
+                  <div class="col-12 text-right">
+                    <button class="btn btn-danger mr-1" style="font-family: 'oteos semi bold';" (click)="onCLickCancelOrderBtn()">
+                      {{translateService.getTranslate('label.orders.cancel.btn')}}
+                    </button>
+                    <button class="btn btn-oteos" (click)="onCLickFinishOrderBtn()">
+                      {{translateService.getTranslate('label.orders.finish.btn')}}
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </oteos-card>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<oteos-modal 
+  [id]="'confirm-buy-order'"
+  [type]="constantsService.OteosModalTypeConstants.CONFIRM" 
+  [labelConfirm]="'Confirmar'"
+  [labelClose]="'Cerrar'"
+  (close)="closeModalConfirmBuyOrder($event)"
+  (accept)="acceptModalConfirmBuyOrder($event)" >
+  <div modal-title>{{translateService.getTranslate('label.orders.modal.title')}}</div>
+  <div modal-content>{{translateService.getTranslate('label.orders.modal.text')}}</div>
+</oteos-modal>

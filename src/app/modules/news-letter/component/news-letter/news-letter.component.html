@@ -1,0 +1,24 @@
+<div class="row news-letter">
+  <div class="col-12">
+
+    <div class="row" *ngFor="let n of news; let i = index" [ngClass]="{'mt-3': i > 0}">
+      <div class="col-3 text-center">
+        <img [src]="n.imgSrc" height="250" width="250">
+      </div>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-12">
+            <h3>{{n.title}}</h3>
+          </div>
+          <div class="col-12 mt-1">
+            <p style="font-size: 18px;">{{n.text1}}</p>
+          </div>
+          <div class="col-12">
+            <p style="font-size: 18px;">{{n.text2}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -330,7 +330,7 @@ export class CategoriesComponent implements OnInit {
     }
 
     if ($event.value == 'delete') {
-      this.modalService.open("delete-permission");
+      this.modalService.open("delete-category");
     }
   } 
 

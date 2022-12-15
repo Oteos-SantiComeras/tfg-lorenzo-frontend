@@ -1,0 +1,61 @@
+.products-list {
+    height: calc(100vh - 127px);
+
+    &__filter-container {
+        height: 5.5%;
+    }
+
+    &__list-container {
+        height: 90%;
+
+        &--item {
+            border: 1px solid #000; 
+            border-radius: 4px;
+            margin-top: 10px;
+
+            &--title-container {
+                border-bottom: 0.5px solid #000; 
+                height: 50px; 
+                vertical-align: middle; 
+                text-align: center;
+                cursor: pointer;
+
+                &--title {
+                    font-weight: bold;
+                }
+            }
+
+            &--image-container {
+                border-bottom: 0.5px solid #000; 
+                text-align: center;
+                cursor: pointer;
+
+            }
+
+            &--price-container {
+                border-bottom: 0.5px solid #000;
+                text-align: center;
+
+                &--price {
+                    display: block;
+                }
+            }
+
+            &--btn-container {
+                height: 37.5px;
+                margin: 5px;
+
+                &--out-of-stock {
+                    text-align: center; 
+                    margin-top: 10px; 
+                    color: red;
+                }
+            }
+        }
+    }
+    
+    &__pagination-container {
+        margin-top: 5px;
+        height: 5%;
+    }
+}

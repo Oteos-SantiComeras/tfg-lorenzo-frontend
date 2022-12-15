@@ -1,0 +1,80 @@
+<div class="row cart">
+  <div class="col-12">
+
+    <div class="row">
+      <div class="col-12">
+        <oteos-card
+          [showTitle]="true" >
+          <p card-title>{{translateService.getTranslate('label.cart.card.title')}}</p>
+          <div card-content>
+
+            <table class="table" *ngIf="cart">
+              <thead>
+                <th></th>
+                <th>{{translateService.getTranslate('label.cart.cols.product')}}</th>
+                <th>{{translateService.getTranslate('label.cart.cols.amount')}}</th>
+                <th>{{translateService.getTranslate('label.cart.cols.unit-price')}}</th>
+                <th>{{translateService.getTranslate('label.cart.cols.total-price')}}</th>
+                <th>{{translateService.getTranslate('label.cart.cols.total-price-tax')}}</th>
+                <th></th>
+              </thead>
+              <tbody *ngIf="cart.products && cart.products.length > 0">
+                <tr *ngFor="let product of cart.products; let i = index">
+                  <td><img [src]="product.imageUrl" height="50" width="50" *ngIf="product.imageUrl"></td>
+                  <td>{{product.name}}</td>
+                  <td>{{cart.amounts[i]}}</td>
+                  <td>{{product.price}} €</td>
+                  <td>{{(product.price * cart.amounts[i])}}</td>
+                  <td>{{getTotalPriceWithTaxsOfProduct(product, cart.amounts[i])}} €</td>
+                  <td class="text-right">
+                    <button class="btn btn-secondary btn-sm" (click)="onClickMinusProduct(product)">
+                      <i class="fa fa-minus"></i>
+                    </button>
+                    <button class="btn btn-secondary btn-sm" style="margin-left: 5px;" (click)="onClickPlusProduct(product)">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="row" *ngIf="cart">
+              <div class="col-12" style="text-align: right;">
+                <span style="font-weight: bold;">Total productos: </span><span>{{cart.totalItems}}</span>
+              </div>
+              <div class="col-12" style="text-align: right;">
+                <span style="font-weight: bold;">Precio total: </span><span>{{cart.totalPrice}} €</span>
+              </div>
+              <div class="col-12" style="text-align: right;">
+                <span style="font-weight: bold;">Precio total (Iva): </span><span>{{cart.totalPriceTaxs}} €</span>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 25px;" *ngIf="cart && cart.products && cart.products.length > 0">
+              <div class="col-12 text-right">
+                <button class="btn btn-oteos mr-1" (click)="onClickCleanBtn()">{{translateService.getTranslate('label.cart.clean.btn')}}</button>
+                <button class="btn btn-success" style="font-family: 'oteos semi bold';" (click)="onClickBuyBtn()">{{translateService.getTranslate('label.cart.buy.btn')}}</button>
+              </div>
+            </div>
+
+            <div class="text-center" *ngIf="!cart || (cart && !cart.products) || (cart && cart.products && cart.products.length == 0)">
+              <span>{{translateService.getTranslate('label.cart.no.products')}}</span>
+            </div>
+          </div>
+        </oteos-card>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<oteos-modal 
+  [id]="'confirm-go-register'"
+  [type]="constantsService.OteosModalTypeConstants.CONFIRM" 
+  [labelConfirm]="'Confirmar'"
+  [labelClose]="'Cerrar'"
+  (close)="closeModalGoLogin($event)"
+  (accept)="acceptModalGoLogin($event)" >
+  <div modal-title>{{translateService.getTranslate('label.cart.no-logged.modal.title')}}</div>
+  <div modal-content>{{translateService.getTranslate('label.cart.no-logged.modal.text')}}</div>
+</oteos-modal>
