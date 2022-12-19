@@ -1,4 +1,3 @@
-import { Company } from "../../companies/model/company";
 import { Role } from "../../roles/model/role";
 
 export class User {
@@ -10,6 +9,5 @@ export class User {
     active?: boolean;
     pwdRecoveryToken?: string;
     pwdRecoveryDate?: Date;
-    company?: Company;
     typeObj?: string;
   }

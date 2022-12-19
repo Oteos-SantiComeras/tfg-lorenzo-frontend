@@ -40,13 +40,16 @@
 
             <div class="row" *ngIf="cart">
               <div class="col-12" style="text-align: right;">
-                <span style="font-weight: bold;">Total productos: </span><span>{{cart.totalItems}}</span>
+                <span style="font-weight: bold;">{{translateService.getTranslate('label.cart.detail.cart.total-elements')}}: </span>
+                <span>{{cart.totalItems}}</span>
               </div>
               <div class="col-12" style="text-align: right;">
-                <span style="font-weight: bold;">Precio total: </span><span>{{cart.totalPrice}} €</span>
+                <span style="font-weight: bold;">{{translateService.getTranslate('label.cart.detail.cart.total-price')}}: </span>
+                <span>{{cart.totalPrice}} €</span>
               </div>
               <div class="col-12" style="text-align: right;">
-                <span style="font-weight: bold;">Precio total (Iva): </span><span>{{cart.totalPriceTaxs}} €</span>
+                <span style="font-weight: bold;">{{translateService.getTranslate('label.cart.detail.cart.total-price-tax')}}: </span>
+                <span>{{cart.totalPriceTaxs}} €</span>
               </div>
             </div>
 

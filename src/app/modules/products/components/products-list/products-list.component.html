@@ -24,7 +24,7 @@
       </div>
       <div class="col-3">
         <select class="form-control" [(ngModel)]="filter.category">
-          <option [value]="undefined">Todos</option>
+          <option [value]="undefined">{{translateService.getTranslate('label.general.all')}}</option>
           <option *ngFor="let c of categoriesList" [ngValue]="c.name">{{c.name}}</option>
         </select>
       </div>

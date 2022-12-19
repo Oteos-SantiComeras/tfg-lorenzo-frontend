@@ -318,13 +318,17 @@
 
                 <div class="row" *ngIf="newOrder.cart">
                   <div class="col-12" style="text-align: right;">
-                    <span style="font-weight: bold;">Total productos: </span><span>{{newOrder.cart.totalItems}}</span>
+                    <span style="font-weight: bold;">
+                      {{translateService.getTranslate('label.manage-orders.detail.cart.total-elements')}}: </span>
+                      <span>{{newOrder.cart.totalItems}}</span>
                   </div>
                   <div class="col-12" style="text-align: right;">
-                    <span style="font-weight: bold;">Precio total: </span><span>{{newOrder.cart.totalPrice}} €</span>
+                    <span style="font-weight: bold;">{{translateService.getTranslate('label.manage-orders.detail.cart.total-price')}}: </span>
+                    <span>{{newOrder.cart.totalPrice}} €</span>
                   </div>
                   <div class="col-12" style="text-align: right;">
-                    <span style="font-weight: bold;">Precio total (Iva): </span><span>{{newOrder.cart.totalPriceTaxs}} €</span>
+                    <span style="font-weight: bold;">{{translateService.getTranslate('label.manage-orders.detail.cart.total-price-tax')}}: </span>
+                    <span>{{newOrder.cart.totalPriceTaxs}} €</span>
                   </div>
                 </div>
 

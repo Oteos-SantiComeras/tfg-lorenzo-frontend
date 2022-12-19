@@ -176,9 +176,4 @@ export class ProductDetailComponent implements OnInit {
       this.translateService.getTranslate("label.product-detail.add-cart.btn.sucessfully")
     );
   }
-
-  /* On Destroy Function */
-  ngOnDestroy(): void {
-    
-  }
 }

@@ -296,6 +296,9 @@
     "label.manage-carts.delete.cart.found": "Carrito no encontrado",
     "label.manage-carts.modal.delete.title": "Eliminar carrito",
     "label.manage-carts.modal.delete.content": "¿Realmente quiere eliminar el carrito",
+    "label.manage-carts.detail.cart.total-elements": "Total productos",
+    "label.manage-carts.detail.cart.total-price": "Precio total",
+    "label.manage-carts.detail.cart.total-price-tax": "Precio total (iva)",
 
     "label.cart.cache.title": "Carrito de productos",
     "label.cart.card.title": "Carrito",
@@ -309,6 +312,9 @@
     "label.cart.no.products": "No hay productos seleccionados",
     "label.cart.no-logged.modal.title": "Sesión no iniciada",
     "label.cart.no-logged.modal.text": "Para poder seguir con su pedido necesita iniciar sesión. ¿Quiere ir al inicio de sesión?",
+    "label.cart.detail.cart.total-elements": "Total productos",
+    "label.cart.detail.cart.total-price": "Precio total",
+    "label.cart.detail.cart.total-price-tax": "Precio total (iva)",
 
     "label.manage-orders.cache.title": "Mantenimiento de pedidos",
     "label.manage-orders.detail.new": "Crear nuevo pedido",
@@ -345,6 +351,9 @@
     "label.manage-orders.delete.order.not.found": "Pedido no encontrado",
     "label.manage-orders.modal.delete.title": "Eliminar pedido",
     "label.manage-orders.modal.delete.content": "¿Realmente quiere eliminar el pedido",
+    "label.manage-orders.detail.cart.total-elements": "Total productos",
+    "label.manage-orders.detail.cart.total-price": "Precio total",
+    "label.manage-orders.detail.cart.total-price-tax": "Precio total (iva)",
 
     "label.orders.cache.title": "Finalizar pedido",
     "label.orders.card.title": "Detalles del pedido",

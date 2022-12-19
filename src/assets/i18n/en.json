@@ -296,6 +296,9 @@
     "label.manage-carts.delete.cart.found": "Cart not found",
     "label.manage-carts.modal.delete.title": "Remove cart",
     "label.manage-carts.modal.delete.content": "You really want to remove the cart",
+    "label.manage-carts.detail.cart.total-elements": "Total elements",
+    "label.manage-carts.detail.cart.total-price": "Total price",
+    "label.manage-carts.detail.cart.total-price-tax": "Total price (taxs)",
 
     "label.cart.cache.title": "Products cart",
     "label.cart.card.title": "Cart",
@@ -309,6 +312,9 @@
     "label.cart.no.products": "There arent products to show",
     "label.cart.no-logged.modal.title": "Not logged",
     "label.cart.no-logged.modal.text": "In order to continue with your order you need to log in. Do you want to go to login?",
+    "label.cart.detail.cart.total-elements": "Total elements",
+    "label.cart.detail.cart.total-price": "Total price",
+    "label.cart.detail.cart.total-price-tax": "Total price (taxs)",
 
     "label.manage-orders.cache.title": "Manage orders",
     "label.manage-orders.detail.new": "Create new order",
@@ -345,6 +351,9 @@
     "label.manage-orders.delete.order.not.found": "Order not found",
     "label.manage-orders.modal.delete.title": "Remove order",
     "label.manage-orders.modal.delete.content": "You really want to remove the order",
+    "label.manage-orders.detail.cart.total-elements": "Total elements",
+    "label.manage-orders.detail.cart.total-price": "Total price",
+    "label.manage-orders.detail.cart.total-price-tax": "Total price (taxs)",
 
     "label.orders.cache.title": "Finish order",
     "label.orders.card.title": "Order details",
