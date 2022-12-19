@@ -7,7 +7,6 @@ import { ProductDetailComponent } from './modules/products/components/product-de
 import { ProductsListComponent } from './modules/products/components/products-list/products-list.component';
 import { ProductsComponent } from './modules/products/components/products/products.component';
 import { CategoriesComponent } from './modules/categories/components/categories/categories.component';
-import { PdfFileViewerComponent } from './modules/shared/pdf-file-viewer/pdf-file-viewer.component';
 import { RegisterComponent } from './modules/users/components/register/register.component';
 import { PermissionsComponent } from './modules/permissions/components/permissions/permissions.component';
 import { RolesComponent } from './modules/roles/components/roles/roles.component';
@@ -57,12 +56,6 @@ const routes: Routes = [
     component: PermissionsComponent,
     canActivate: [AuthGuard],
     data: { roles: [roleList.ADMIN] },
-  },
-  {
-    path: 'pdf-file-viewer',
-    component: PdfFileViewerComponent,
-    canActivate: [AuthGuard],
-    data: { roles: [roleList.USER] },
   },
   {
     path: 'categories',

@@ -2,12 +2,10 @@ import { NewsLetterModule } from './modules/news-letter/news-letter.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { ProductsModule } from './modules/products/products.module';
 import { CategoriesModule } from './modules/categories/categories.module';
-import { SharedModule } from './modules/shared/shared.module';
 import { UsersModule } from './modules/users/users.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { ngxsConfig } from './../environments/constants';
-import { OptionsModule } from './modules/options/options.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -53,12 +51,10 @@ export function translateFactory(provider: OteosTranslateService) {
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxPaginationModule,
     OteosComponentsLibModule,
-    SharedModule,
     AuthModule,
     PermissionsModule,
     RolesModule,
     UsersModule,
-    OptionsModule,
     CategoriesModule,
     ProductsModule,
     CartModule,
