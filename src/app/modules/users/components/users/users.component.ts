@@ -6,7 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { User } from '../../model/user';
 import { UsersState } from '../../store/users.state';
 import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosSelectedItem, OteosSelectItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosToastService, OteosTranslateService, OteosThemeService, OteosModalService } from 'oteos-components-lib';
-import { AddNewUser, DeleteUser, EditUser, FetchRoles, FetchUsers, SubscribeUserWS, UnSubscribeUserWS } from '../../store/users.actions';
+import { AddNewUser, DeleteUser, EditUser, FetchRoles, FetchUsers} from '../../store/users.actions';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { roleList } from 'src/app/constants/roles.constants';
 
@@ -108,7 +108,6 @@ export class UsersComponent implements OnInit {
       {label: this.translateService.getTranslate('label.users.cols.active'), property: "active"}
     ];
 
-    this.store.dispatch(new SubscribeUserWS()).subscribe();
     this.store.dispatch(new FetchRoles());
     this.store.dispatch(new FetchUsers({ filter: this.filter }));
     this.notifyChangeUsers();
@@ -184,6 +183,7 @@ export class UsersComponent implements OnInit {
             this.store.selectSnapshot(UsersState.successMsg)
           );
           this.closeForm();
+          this.notifyChangeUsers();
         }else{
           this.toastService.addErrorMessage(
             this.translateService.getTranslate('label.error.title'),
@@ -218,6 +218,7 @@ export class UsersComponent implements OnInit {
             this.store.selectSnapshot(UsersState.successMsg)
           );
           this.closeForm();
+          this.notifyChangeUsers();
         }else{
           this.toastService.addErrorMessage(
             this.translateService.getTranslate('label.error.title'),
@@ -251,6 +252,7 @@ export class UsersComponent implements OnInit {
             this.translateService.getTranslate('label.success.title'),
             this.store.selectSnapshot(UsersState.successMsg)
           );
+          this.notifyChangeUsers();
         }else{
           this.toastService.addErrorMessage(
             this.translateService.getTranslate('label.error.title'),
@@ -586,7 +588,6 @@ export class UsersComponent implements OnInit {
 
   /* On Destroy Function */
   ngOnDestroy(): void {
-    this.subManager.unsubscribe()
-    this.store.dispatch(new UnSubscribeUserWS());
+    this.subManager.unsubscribe();
   }
 }

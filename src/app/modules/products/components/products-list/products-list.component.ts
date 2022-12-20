@@ -1,22 +1,17 @@
 import { Category } from './../../../categories/model/category';
 import { FetchCategories } from './../../store/products.actions';
-import { CategoriesState } from './../../../categories/store/categories.state';
-import { FetchUsers } from './../../../users/store/users.actions';
 import { Cart } from './../../../cart/model/cart';
-import { AuthState } from './../../../auth/store/auth.state';
-import { User } from './../../../users/model/user';
 import { Router } from '@angular/router';
 import { cloneDeep } from 'lodash-es';
 import { Component, forwardRef, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { OteosCacheService, OteosConstantsService, OteosModalService, OteosSpinnerService, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosCacheService, OteosConstantsService, OteosSpinnerService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
 import { Observable, Subscription } from 'rxjs';
 import { Product } from '../../model/product';
-import { FetchProducts, SubscribeProductsWS } from '../../store/products.actions';
+import { FetchProducts } from '../../store/products.actions';
 import { ProductsState } from '../../store/products.state';
 import environment from 'src/environments/environment';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { UsersState } from 'src/app/modules/users/store/users.state';
 
 @Component({
   selector: 'app-products-list',
@@ -53,8 +48,6 @@ export class ProductsListComponent implements OnInit {
   public page: number = 1;
 
   constructor(
-    private readonly modalService: OteosModalService,
-    private readonly themeService: OteosThemeService,
     private readonly cacheService: OteosCacheService,
     public readonly translateService: OteosTranslateService,
     private readonly spinnerService: OteosSpinnerService,
@@ -87,8 +80,6 @@ export class ProductsListComponent implements OnInit {
 
   /* Store Actions */
   notifyChangeProducts(){
-    this.store.dispatch(new SubscribeProductsWS());
-
     const sub = this.notifyChangeProducts$.subscribe({
       next: () => {
         this.store.dispatch(new FetchProducts({ filter: this.filter}))

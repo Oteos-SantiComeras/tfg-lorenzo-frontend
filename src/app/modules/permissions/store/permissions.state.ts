@@ -1,11 +1,11 @@
-import { OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosTranslateService } from 'oteos-components-lib';
 import { Pagination } from './../../../models/pagination';
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { catchError, map, tap } from "rxjs/operators";
 import { Permission } from "../model/permission";
 import { PermissionsService } from "../permissions.service";
-import { CreatePermission, DeletePermission, EditPermission, FetchPermissions, SubscribePermissionsWS, UnSubscribePermissionsWS } from "./permissions.actions";
+import { CreatePermission, DeletePermission, EditPermission, FetchPermissions } from "./permissions.actions";
 
 export class PermissionsStateModel {
   permissions: Permission[];
@@ -32,7 +32,6 @@ export const PermissionsStateDefault: PermissionsStateModel = {
 export class PermissionsState {
 
   constructor(
-    private readonly toastService: OteosToastService,
     private readonly translateService: OteosTranslateService,
     private readonly permissionsService: PermissionsService
   ) {
@@ -203,29 +202,6 @@ export class PermissionsState {
       
         throw new Error(err);
       }));
-  }
-
-  @Action(SubscribePermissionsWS)
-  public suscribePermissionsWS(ctx: StateContext<PermissionsStateModel>) {
-    return this.permissionsService.getPermissionsBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangePermissions: !state.notifyChangePermissions,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribePermissionsWS)
-  public unsuscribePermissionsWS(ctx: StateContext<PermissionsStateModel>) {
-    this.permissionsService.removeSocket();
   }
 }
 

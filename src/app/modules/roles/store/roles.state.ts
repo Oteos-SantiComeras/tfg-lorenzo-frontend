@@ -1,4 +1,4 @@
-import { OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosTranslateService } from 'oteos-components-lib';
 import { Pagination } from './../../../models/pagination';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Permission } from '../../permissions/model/permission';
 import { Role } from '../model/role';
 import { RolesService } from '../roles.service';
-import { AddRole, DeleteRole, FetchPermissions, FetchRoles, SubscribeRoleWS, UnSubscribeRoleWS, UpdateRole } from './roles.actions';
+import { AddRole, DeleteRole, FetchPermissions, FetchRoles, UpdateRole } from './roles.actions';
 
 export class RoleStateModel {
     roles: Role[];
@@ -35,7 +35,6 @@ export const RoleStateDefaults: RoleStateModel = {
 export class RoleState {
 
   constructor(
-    private readonly toastService: OteosToastService,
     private readonly translateService: OteosTranslateService,
     private readonly roleService: RolesService
   ) {}
@@ -218,27 +217,5 @@ export class RoleState {
         throw new Error(err);
       })
     );
-  }
-  @Action(SubscribeRoleWS)
-  public suscribeRoleWS(ctx: StateContext<RoleStateModel>) {
-    return this.roleService.getRoleBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeRoles : !state.notifyChangeRoles,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeRoleWS)
-  public unsuscribeRoleWS(ctx: StateContext<RoleStateModel>) {
-    this.roleService.removeSocket();
   }
 }

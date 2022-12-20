@@ -3,9 +3,8 @@ import { OteosCacheService, OteosToastService, OteosTranslateService, OteosSpinn
 import { Component, forwardRef, HostListener, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Permission } from '../../model/permission';
-import { permissionsList } from 'src/app/constants/permissions.constants';
 import { Observable, Subscription } from 'rxjs';
-import { CreatePermission, DeletePermission, EditPermission, FetchPermissions, SubscribePermissionsWS, UnSubscribePermissionsWS } from '../../store/permissions.actions';
+import { CreatePermission, DeletePermission, EditPermission, FetchPermissions } from '../../store/permissions.actions';
 import { PermissionsState } from '../../store/permissions.state';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -87,8 +86,6 @@ export class PermissionsComponent implements OnInit {
 
   /* Store Functions */
   notifyChangePermissions(){
-    this.store.dispatch(new SubscribePermissionsWS());
-
     const sub = this.notifyChangePermission$.subscribe({
       next: () => {
         this.store.dispatch(new FetchPermissions({ filter: this.filter}))
@@ -431,6 +428,5 @@ export class PermissionsComponent implements OnInit {
   /* On Destroy Function */
   ngOnDestroy(): void {
    this.subManager.unsubscribe();
-   this.store.dispatch(new UnSubscribePermissionsWS());
   }
 }

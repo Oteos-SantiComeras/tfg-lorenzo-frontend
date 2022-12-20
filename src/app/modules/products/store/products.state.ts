@@ -1,5 +1,5 @@
 import { Category } from './../../categories/model/category';
-import { CreateProduct, DeleteProduct, EditProduct, FetchCategories, FetchProducts, SetImageProduct, SubscribeProductsWS, UnSubscribeProductsWS } from './products.actions';
+import { CreateProduct, DeleteProduct, EditProduct, FetchCategories, FetchProducts, SetImageProduct } from './products.actions';
 import { ProductsService } from './../products.service';
 import { OteosTranslateService } from 'oteos-components-lib';
 import { Pagination } from '../../../models/pagination';
@@ -260,29 +260,6 @@ export class ProductsState {
         });
       })
     );
-  }
-
-  @Action(SubscribeProductsWS)
-  public subscribeProductsWS(ctx: StateContext<ProductsStateModel>) {
-    return this.productsService.getProductsBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeProducts: !state.notifyChangeProducts,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeProductsWS)
-  public unSubscribeProductsWS(ctx: StateContext<ProductsStateModel>) {
-    this.productsService.removeSocket();
   }
 }
 

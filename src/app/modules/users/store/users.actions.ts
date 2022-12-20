@@ -1,4 +1,3 @@
-import { Message } from './../../emailer/model/message';
 import { User } from "../../users/model/user";
 
 /* Basic Users CRUD  */
@@ -28,22 +27,7 @@ export class AddNewUserNoAuth {
     constructor(public payload: {user: User} ) {}
 }
 
-/* Send Register Mail */
-export class SendRegisterEmail {
-    static readonly type = '[USER] Send register email';
-    constructor(public payload: {message: Message}) {}
-}
-
 /* Role Endpoint To Fetch Roles For Users Manage Create / Edit user (Dropdown objects) */
 export class FetchRoles {
     static readonly type = '[USER] Fetch all roles';
-}
-
-/* Web Sockets */
-export class SubscribeUserWS{
-    static readonly type = '[USER] Subscribe user WS'
-}
-
-export class UnSubscribeUserWS {
-    static readonly type = '[USER] UnSubscribe user WS';
 }

@@ -9,26 +9,19 @@ import { ngxsConfig } from './../environments/constants';
 import { AuthModule } from './modules/auth/auth.module';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { OteosComponentsLibModule, OteosConfigService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosComponentsLibModule, OteosTranslateService } from 'oteos-components-lib';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NgxsModule, NgxsModuleOptions } from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { WsBackendService } from './services/websockets.service';
 import { AuthGuard } from './services/auth.guard.service';
-import { TokenInterceptor } from './modules/interceptors/token.interceptor';
-import { ErrorInterceptor } from './modules/interceptors/error.interceptor';
-import { ApiInterceptor } from './modules/interceptors/api.interceptor';
+import { TokenInterceptor } from './modules/auth/model/token.interceptor';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CartModule } from './modules/cart/cart.module';
-
-export function configFactory(provider: OteosConfigService) {
-  return () => provider.getDataFromJson('assets/config/data.json');
-}
 
 export function translateFactory(provider: OteosTranslateService) {
   return () => provider.getData('assets/i18n/');
@@ -62,7 +55,6 @@ export function translateFactory(provider: OteosTranslateService) {
     NewsLetterModule,
   ],
   providers: [
-    WsBackendService,
     AuthGuard,
     {
       provide: APP_INITIALIZER,
@@ -71,24 +63,8 @@ export function translateFactory(provider: OteosTranslateService) {
       multi: true,
     },
     {
-      provide: APP_INITIALIZER,
-      useFactory: configFactory,
-      deps: [OteosConfigService],
-      multi: true,
-    },
-    {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiInterceptor,
       multi: true,
     },
   ],

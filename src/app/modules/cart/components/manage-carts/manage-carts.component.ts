@@ -3,7 +3,7 @@ import { FetchUsers } from './../../../users/store/users.actions';
 import { User } from './../../../users/model/user';
 import { UsersState } from './../../../users/store/users.state';
 import { cloneDeep } from 'lodash-es';
-import { FetchCarts, CreateCart, EditCart, DeleteCart, UnSubscribeCartsWS } from './../../store/cart.actions';
+import { FetchCarts, DeleteCart } from './../../store/cart.actions';
 import { Cart } from './../../model/cart';
 import { CartsState } from './../../store/cart.state';
 import { Select, Store } from '@ngxs/store';
@@ -11,7 +11,6 @@ import { Component, forwardRef, HostListener, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosModalService, OteosSelectedItem, OteosSelectItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
-import { SubscribeCartsWS } from '../../store/cart.actions';
 import { Product } from 'src/app/modules/products/model/product';
 
 @Component({
@@ -108,8 +107,6 @@ export class ManageCartsComponent implements OnInit {
 
   /* Store Functions */
   notifyChangeCarts(){
-    this.store.dispatch(new SubscribeCartsWS());
-
     const sub = this.notifyChangeCarts$.subscribe({
       next: () => {
         this.store.dispatch(new FetchCarts({ filter: this.filter}))
@@ -190,7 +187,6 @@ export class ManageCartsComponent implements OnInit {
         this.selectUsers = [];
 
         const users = this.store.selectSnapshot(UsersState.users);
-        console.log(users)
 
         if(users && users.length > 0) {
           for (const user of users) {
@@ -388,6 +384,5 @@ export class ManageCartsComponent implements OnInit {
   /* On Destroy Function */
   ngOnDestroy(): void {
    this.subManager.unsubscribe();
-   this.store.dispatch(new UnSubscribeCartsWS());
   }
 }

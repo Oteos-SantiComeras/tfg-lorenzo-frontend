@@ -5,7 +5,7 @@ import { Pagination } from '../../../models/pagination';
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { catchError, map, tap } from "rxjs/operators";
-import { CreateCart, DeleteCart, EditCart, FetchCarts, SubscribeCartsWS, UnSubscribeCartsWS } from './cart.actions';
+import { CreateCart, DeleteCart, EditCart, FetchCarts } from './cart.actions';
 
 export class CartsStateModel {
   carts: Cart[];
@@ -203,29 +203,6 @@ export class CartsState {
       
         throw new Error(err);
       }));
-  }
-
-  @Action(SubscribeCartsWS)
-  public subscribeCartsWS(ctx: StateContext<CartsStateModel>) {
-    return this.cartsService.getCartsBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeCarts: !state.notifyChangeCarts,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeCartsWS)
-  public unSubscribeCartsWS(ctx: StateContext<CartsStateModel>) {
-    this.cartsService.removeSocket();
   }
 }
 

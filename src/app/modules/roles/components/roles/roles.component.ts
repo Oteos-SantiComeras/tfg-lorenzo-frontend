@@ -5,7 +5,7 @@ import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, 
 import { Observable, Subscription } from 'rxjs';
 import { Permission } from 'src/app/modules/permissions/model/permission';
 import { Role } from '../../model/role';
-import { AddRole, DeleteRole, FetchPermissions, FetchRoles, SubscribeRoleWS, UnSubscribeRoleWS, UpdateRole } from '../../store/roles.actions';
+import { AddRole, DeleteRole, FetchPermissions, FetchRoles, UpdateRole } from '../../store/roles.actions';
 import { RoleState } from '../../store/roles.state';
 import { OteosJoinPipe } from 'oteos-components-lib';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -94,7 +94,6 @@ export class RolesComponent implements OnInit {
       {label: this.translateService.getTranslate('label.roles.cols.permissions'), property: "permissions"}
     ];
 
-    this.store.dispatch(new SubscribeRoleWS()).subscribe();
     this.store.dispatch(new FetchPermissions());
     this.fetchPermissions();
     this.notifyChangeRoles();
@@ -104,8 +103,6 @@ export class RolesComponent implements OnInit {
   /* Store Functions */
   notifyChangeRoles(){
     this.spinnerService.showSpinner();
-
-    this.store.dispatch(new SubscribeRoleWS());
 
     const sub = this.notifyChangeRoles$.subscribe({
       next: () => {
@@ -171,6 +168,7 @@ export class RolesComponent implements OnInit {
           );
 
           this.closeForm();
+          this.notifyChangeRoles();
         } else {
           this.toastService.addSuccessMessage(
             this.translateService.getTranslate("label.error.title"),
@@ -206,6 +204,7 @@ export class RolesComponent implements OnInit {
             );
 
             this.closeForm();
+            this.notifyChangeRoles();
           } else {
             this.toastService.addErrorMessage(
               this.translateService.getTranslate("label.error.title"),
@@ -237,6 +236,7 @@ export class RolesComponent implements OnInit {
             this.translateService.getTranslate("label.success.title"),
             this.store.selectSnapshot(RoleState.successMsg),
           );
+          this.notifyChangeRoles();
         } else {
           this.toastService.addErrorMessage(
             this.translateService.getTranslate("label.error.title"),
@@ -492,7 +492,6 @@ export class RolesComponent implements OnInit {
 
   /* On Destroy Function */
   ngOnDestroy(): void {
-    this.subManager.unsubscribe()
-    this.store.dispatch(new UnSubscribeRoleWS());
+    this.subManager.unsubscribe();
   }
 }

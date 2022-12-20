@@ -19,11 +19,3 @@ export class DeleteCart {
   static readonly type = "[Carts] Delete cart";
   constructor(public payload: { _id: string }) {}
 }
-
-export class SubscribeCartsWS {
-  static readonly type = "[Carts] Suscribe carts WS";
-}
-
-export class UnSubscribeCartsWS {
-  static readonly type = "[Carts] UnSuscribe carts WS";
-}

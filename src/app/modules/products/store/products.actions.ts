@@ -29,11 +29,3 @@ export class FetchCategories {
   static readonly type = "[Products] Fetch all categories";
   constructor(public payload: { filter: any }) {}
 }
-
-export class SubscribeProductsWS {
-  static readonly type = "[Products] Suscribe products WS";
-}
-
-export class UnSubscribeProductsWS {
-  static readonly type = "[Products] UnSuscribe products WS";
-}

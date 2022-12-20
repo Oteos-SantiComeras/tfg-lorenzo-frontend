@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { Product } from '../../model/product';
 import { ProductsState } from '../../store/products.state';
-import { FetchProducts, SubscribeProductsWS } from '../../store/products.actions';
+import { FetchProducts } from '../../store/products.actions';
 import environment from 'src/environments/environment';
 import { Cart } from 'src/app/modules/cart/model/cart';
 
@@ -71,8 +71,6 @@ export class ProductDetailComponent implements OnInit {
 
   /* Store Actions */
   notifyChangeProducts(){
-    this.store.dispatch(new SubscribeProductsWS());
-
     const sub = this.notifyChangeProducts$.subscribe({
       next: () => {
         this.store.dispatch(new FetchProducts({ filter: this.filter}))

@@ -1,5 +1,4 @@
-import { Message } from './../../emailer/model/message';
-import { OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosTranslateService } from 'oteos-components-lib';
 import { Pagination } from './../../../models/pagination';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
@@ -7,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../../../modules/users/model/user';
 import { Role } from '../../roles/model/role';
 import { UsersService } from '../users.service';
-import { AddNewUser, DeleteUser, EditUser, FetchRoles, FetchUsers, SubscribeUserWS, UnSubscribeUserWS, AddNewUserNoAuth, SendRegisterEmail } from './users.actions';
+import { AddNewUser, DeleteUser, EditUser, FetchRoles, FetchUsers, AddNewUserNoAuth } from './users.actions';
 
 
 export class UsersStateModel {
@@ -37,7 +36,6 @@ export const UsersStateDefaults: UsersStateModel = {
 export class UsersState {
 
   constructor(
-    private readonly toastService: OteosToastService,
     private readonly translateService: OteosTranslateService,
     private readonly usersService: UsersService
   ) {}
@@ -266,28 +264,6 @@ export class UsersState {
     );
   }
 
-  /* Send Register Mail */
-  @Action(SendRegisterEmail)
-  public sendRegisterEmail(
-    { patchState }: StateContext<UsersStateModel>,
-    { payload }: SendRegisterEmail
-  ) {
-    return this.usersService.sendRegisterEmail(payload.message).pipe(
-      tap((result: boolean) => {
-        patchState({
-          success: result
-        });
-      }),
-      catchError(err => {
-        patchState({
-          success: false
-        });
-        
-        throw new Error(err);
-      }),
-    );
-  }
-
   /* Role Endpoint To Fetch Roles For Users Manage Create / Edit user (Dropdown objects) */
   @Action(FetchRoles)
   public fetchRoles(ctx: StateContext<UsersStateModel>) {
@@ -297,29 +273,5 @@ export class UsersState {
         ctx.patchState({ roles });
       })
     );
-  }
-  
-  /* Web Sockets */
-  @Action(SubscribeUserWS)
-  public suscribeUserWS(ctx: StateContext<UsersStateModel>) {
-    return this.usersService.getUsersBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeUsers : !state.notifyChangeUsers
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeUserWS)
-  public unsuscribeUserWS(ctx: StateContext<UsersStateModel>) {
-    this.usersService.removeSocket();
   }
 }

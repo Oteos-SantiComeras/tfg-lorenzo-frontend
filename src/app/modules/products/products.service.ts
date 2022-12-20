@@ -1,11 +1,9 @@
-import { WS_PRODUCTS } from './../../constants/websockets.constants';
 import { Product } from './model/product';
 import { Pagination } from './../../models/pagination';
-import { HttpClient, HttpParams, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OteosJoinPipe } from 'oteos-components-lib';
 import { Observable } from 'rxjs';
-import { WsBackendService } from 'src/app/services/websockets.service';
 import environment from 'src/environments/environment';
 
 @Injectable({
@@ -16,7 +14,6 @@ export class ProductsService {
   constructor(
     private readonly joinPipe: OteosJoinPipe,
     private readonly http: HttpClient,
-    private readonly wsBackendService: WsBackendService
   ) {}
 
   fetchProducts(filter: any): Observable<Pagination> {
@@ -69,13 +66,5 @@ export class ProductsService {
     }
 
     return this.http.get<Pagination>(environment.apiUrl + `/categories${params.length == 0 ? '' : '?' + this.joinPipe.transform(params, '&')}`);
-  }
-
-  getProductsBySocket(): any {
-    return this.wsBackendService.getMessage(WS_PRODUCTS);
-  }
-
-  removeSocket(): any {
-    this.wsBackendService.removeListenerMessage(WS_PRODUCTS);
   }
 }

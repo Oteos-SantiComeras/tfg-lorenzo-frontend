@@ -1,4 +1,3 @@
-import { AuthState } from './../auth/store/auth.state';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductsService } from './products.service';

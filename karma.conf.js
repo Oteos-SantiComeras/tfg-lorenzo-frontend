@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/oteos-frontend-base'),
+      dir: require('path').join(__dirname, './coverage/tfg-lorenzo-frontend'),
       subdir: '.',
       reporters: [
         { type: 'html' },

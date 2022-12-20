@@ -21,11 +21,3 @@ export class DeleteCategory {
   static readonly type = "[Categories] Delete category";
   constructor(public payload: { name: string }) {}
 }
-
-export class SubscribeCategoriesWS {
-  static readonly type = "[Categories] Suscribe categories WS";
-}
-
-export class UnSubscribeCategoriesWS {
-  static readonly type = "[Categories] UnSuscribe categories WS";
-}

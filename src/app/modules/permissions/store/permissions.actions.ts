@@ -21,11 +21,3 @@ export class DeletePermission {
   static readonly type = "[Permissions] Delete permission";
   constructor(public payload: { permission: string }) {}
 }
-
-export class SubscribePermissionsWS {
-  static readonly type = "[Permissions] Suscribe permissions WS";
-}
-
-export class UnSubscribePermissionsWS {
-  static readonly type = "[Permissions] UnSuscribe permissions WS";
-}

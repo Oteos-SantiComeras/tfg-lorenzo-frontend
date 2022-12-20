@@ -22,10 +22,4 @@ export class UpdateRole {
 export class DeleteRole {
     static readonly type = '[ROLES] Delete a rol';
     constructor(public payload: { name: string}) {}
-    }
-export class SubscribeRoleWS{
-    static readonly type = '[ROLES] Subscribe rol WS'
-}
-export class UnSubscribeRoleWS {
-    static readonly type = '[ROLES] UnSubscribe rol WS';
 }

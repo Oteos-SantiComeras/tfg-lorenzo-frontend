@@ -1,4 +1,4 @@
-import { FetchOrders, CreateOrder, EditOrder, DeleteOrder, SubscribeOrdersWS, UnSubscribeOrdersWS } from './orders.actions';
+import { FetchOrders, CreateOrder, EditOrder, DeleteOrder } from './orders.actions';
 import { OrdersService } from './../orders.service';
 import { Order } from './../model/order';
 import { OteosTranslateService } from 'oteos-components-lib';
@@ -200,29 +200,6 @@ export class OrdersState {
       
         throw new Error(err);
       }));
-  }
-
-  @Action(SubscribeOrdersWS)
-  public subscribeCartsWS(ctx: StateContext<OrdersStateModel>) {
-    return this.ordersService.getOrdersBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeOrders: !state.notifyChangeOrders,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeOrdersWS)
-  public unSubscribeCartsWS(ctx: StateContext<OrdersStateModel>) {
-    this.ordersService.removeSocket();
   }
 }
 

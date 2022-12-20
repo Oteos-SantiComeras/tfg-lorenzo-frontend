@@ -1,5 +1,5 @@
 import { AuthState } from './../../store/auth.state';
-import { OteosCacheService, OteosToastService, OteosTranslateService, OteosConstantsService, OteosConfigService } from 'oteos-components-lib';
+import { OteosCacheService, OteosToastService, OteosTranslateService, OteosConstantsService } from 'oteos-components-lib';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -32,7 +32,6 @@ export class PasswordRecoveryComponent implements OnInit {
     private toastService: OteosToastService,
     public translateService: OteosTranslateService,
     public constants: OteosConstantsService,
-    private configservice: OteosConfigService,
   ) { 
     this.cache.setElement("title", this.translateService.getTranslate('label.pwdRecovery.cache.title'));
     this.pwdRecovery = '';
@@ -132,7 +131,7 @@ export class PasswordRecoveryComponent implements OnInit {
     const hours:any = actualDate.diff(recoveryDate,'hours')
     const minutes:any = actualDate.diff(recoveryDate,'minutes')
 
-    const maxMinutesExpire: number = this.configservice.getData('pwdRecoveryExpire');
+    const maxMinutesExpire: number = 30;
 
     if ((minutes >= maxMinutesExpire) && validate) {
       this.toastService.addErrorMessage(

@@ -1,7 +1,7 @@
 import environment from 'src/environments/environment';
 import { Category } from './../../../categories/model/category';
 import { cloneDeep } from 'lodash-es';
-import { FetchProducts, CreateProduct, EditProduct, DeleteProduct, FetchCategories, UnSubscribeProductsWS, SetImageProduct } from './../../store/products.actions';
+import { FetchProducts, CreateProduct, EditProduct, DeleteProduct, FetchCategories, SetImageProduct } from './../../store/products.actions';
 import { Product } from './../../model/product';
 import { ProductsState } from './../../store/products.state';
 import { Component, forwardRef, HostListener, OnInit } from '@angular/core';
@@ -9,7 +9,6 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosModalService, OteosSelectedItem, OteosSelectItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
-import { SubscribeProductsWS } from '../../store/products.actions';
 
 @Component({
   selector: 'app-products',
@@ -110,7 +109,6 @@ export class ProductsComponent implements OnInit {
 
   /* Store Functions */
   notifyChangeProducts(){
-    this.store.dispatch(new SubscribeProductsWS());
 
     const sub = this.notifyChangeProducts$.subscribe({
       next: () => {
@@ -158,8 +156,6 @@ export class ProductsComponent implements OnInit {
           );
 
           this.setProductImage($ev);
-         /*  this.notifyChangeProducts();
-          this.closeForm(); */
         } else {
           this.toastService.addErrorMessage(
             this.translateService.getTranslate("label.error.title"),
@@ -282,7 +278,6 @@ export class ProductsComponent implements OnInit {
     });
 
     this.subManager.add(sub);
-    this.spinnerService.hideSpinner();
   }
 
   setProductImage($ev: Product) {
@@ -304,20 +299,14 @@ export class ProductsComponent implements OnInit {
             this.store.selectSnapshot(ProductsState.errorMsg),
           );
         }
-
-        this.spinnerService.showSpinner();
       },
       error: () => {
         this.toastService.addErrorMessage(
           this.translateService.getTranslate("label.error.title"),
           this.store.selectSnapshot(ProductsState.errorMsg),
         );
-
-        this.spinnerService.showSpinner();
       },
     });
-
-   // this.spinnerService.showSpinner();
   }
 
   /* Filter functions */
@@ -599,18 +588,5 @@ export class ProductsComponent implements OnInit {
   /* On Destroy Function */
   ngOnDestroy(): void {
    this.subManager.unsubscribe();
-   this.store.dispatch(new UnSubscribeProductsWS());
-  }
-
-  private _base64ToArrayBuffer(base64) {
-    let binary_string = window.atob(base64);
-    let len = binary_string.length;
-    let bytes = new Uint8Array(len);
-
-    for (let i = 0; i < len; i++) {
-        bytes[i] = binary_string.charCodeAt(i);
-    }
-
-    return bytes.buffer;
   }
 }

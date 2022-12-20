@@ -2,10 +2,7 @@ import { Pagination } from './../../models/pagination';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { WS_ROLES } from 'src/app/constants/websockets.constants';
-import { WsBackendService } from 'src/app/services/websockets.service';
 import environment from 'src/environments/environment';
-import { Permission } from '../permissions/model/permission';
 import { Role } from './model/role';
 import { OteosJoinPipe } from 'oteos-components-lib';
 
@@ -17,7 +14,6 @@ export class RolesService {
   constructor(
     private readonly joinPipe: OteosJoinPipe,
     private readonly http: HttpClient,
-    private readonly wsBackendService: WsBackendService
   ) {}
 
   fetchRoles(filter: any): Observable<Pagination> {
@@ -40,20 +36,10 @@ export class RolesService {
   }
 
   editRole(oldName: string, role: Role):Observable<Role> {
-    console.log("editRole")
-    console.log(role);
     return this.http.put<Role>(environment.apiUrl + `/roles/${oldName}`, role)
   }
 
   deleteRole(name: string){
     return this.http.delete<Role>(environment.apiUrl + `/roles/${name}`)
-  }
-
-  getRoleBySocket(): any {
-    return this.wsBackendService.getMessage(WS_ROLES);
-  }
-
-  removeSocket(): any {
-    this.wsBackendService.removeListenerMessage(WS_ROLES);
   }
 }

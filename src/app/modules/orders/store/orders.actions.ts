@@ -1,4 +1,5 @@
 import { Order } from './../model/order';
+
 export class FetchOrders {
   static readonly type = "[Orders] Fetch all orders";
   constructor(public payload: { filter: any }) {}
@@ -17,12 +18,4 @@ export class EditOrder {
 export class DeleteOrder {
   static readonly type = "[Orders] Delete order";
   constructor(public payload: { _id: string }) {}
-}
-
-export class SubscribeOrdersWS {
-  static readonly type = "[Orders] Suscribe orders WS";
-}
-
-export class UnSubscribeOrdersWS {
-  static readonly type = "[Orders] UnSuscribe orders WS";
 }

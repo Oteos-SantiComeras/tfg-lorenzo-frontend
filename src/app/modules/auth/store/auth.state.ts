@@ -1,9 +1,9 @@
-import { OteosToastService, OteosCacheService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosCacheService } from 'oteos-components-lib';
 import { Action, State, StateContext, Selector } from '@ngxs/store';
 import { Token } from '../model/token';
 import { AuthService } from '../auth.service';
 import { tap, catchError, mergeMap, map } from 'rxjs/operators';
-import { Login, Logout, RequestPw, RestoreToken, ConfirmPwReset, FetchUserData, PasswordRecovery, EditUserPassword, FetchUserByPwdRecovery, SendPasswordRecoveryEmail } from './auth.actions';
+import { Login, Logout, FetchUserData, PasswordRecovery, EditUserPassword, FetchUserByPwdRecovery } from './auth.actions';
 import { throwError, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { menuLogout } from '../../../utils/menu-items';
@@ -34,9 +34,7 @@ export const AuthStateDefaults: AuthStateModel = {
 export class AuthState {
   constructor(
     private authService: AuthService,
-    private toastService: OteosToastService,
     private cacheService: OteosCacheService,
-    private translateService: OteosTranslateService
   ) {}
 
   @Selector()
@@ -61,7 +59,7 @@ export class AuthState {
 
   @Action(Login)
   public login(
-    { patchState, dispatch, getState }: StateContext<AuthStateModel>,
+    { patchState, dispatch }: StateContext<AuthStateModel>,
     { payload }: Login
   ) {
     return this.authService.login(payload).pipe(
@@ -74,12 +72,6 @@ export class AuthState {
         return dispatch(new FetchUserData());
       }),
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
-         /*  this.toastService.addErrorMessage(
-            this.translateService.getTranslate("label.error.title"),
-            this.translateService.getTranslate("label.auth.form.bad.request")
-          ); */
-        }
         return throwError(err);
       })
     );
@@ -89,61 +81,6 @@ export class AuthState {
   public logout({ setState }: StateContext<AuthStateModel>): void {
     setState({ ...AuthStateDefaults });
     this.cacheService.setElement('menuItems', menuLogout);
-  }
-
-  @Action(RequestPw)
-  public requestPw(
-    {}: StateContext<AuthStateModel>,
-    { passwordResetDto }: RequestPw
-  ): Observable<void> {
-    return this.authService.requestPw(passwordResetDto).pipe(
-      tap(() => {
-        this.toastService.addSuccessMessage(
-          'SUCCESS',
-          'Petición de reinicio de contraseña confirmada. Por favor, revise su correo.'
-        );
-      }),
-      catchError((err) => {
-        this.toastService.addErrorMessage(
-          'ERROR',
-          'Error en la petición de reinicio de contraseña.'
-        );
-        return throwError(err);
-      })
-    );
-  }
-
-  @Action(ConfirmPwReset)
-  public confirmPwReset(
-    {}: StateContext<AuthStateModel>,
-    { payload }: ConfirmPwReset
-  ) {
-    return this.authService.confirmPwReset(payload.confirmPwReset).pipe(
-      tap(() => {
-        this.toastService.addSuccessMessage(
-          'SUCCESS',
-          'Contraseña restablecida con éxito.'
-        );
-      }),
-      catchError((err) => {
-        this.toastService.addErrorMessage(
-          'ERROR',
-          'Su token ha caducado o no existe.'
-        );
-        return throwError(err);
-      })
-    );
-  }
-
-  @Action(RestoreToken)
-  public restoreToken(
-    { patchState, dispatch }: StateContext<AuthStateModel>,
-    { payload }: RestoreToken
-  ) {
-    patchState({
-      token: payload,
-    });
-    return dispatch(new FetchUserData());
   }
 
   @Action(FetchUserData)
@@ -161,7 +98,6 @@ export class AuthState {
     );
   }
 
-  /* Password Recovery */
   @Action(PasswordRecovery)
   public passwordRecovery(
     { patchState }: StateContext<AuthStateModel>,
@@ -186,27 +122,6 @@ export class AuthState {
             success: false
           });
           throw new Error(err);
-      }),
-    );
-  }
-
-  @Action(SendPasswordRecoveryEmail)
-  public sendPasswordRecoveryEmail(
-    { patchState }: StateContext<AuthStateModel>,
-    { payload }: SendPasswordRecoveryEmail
-  ) {
-    return this.authService.sendPasswordRecoveryEmail(payload.message).pipe(
-      tap((result: boolean) => {
-        patchState({
-          success: result
-        });
-      }),
-      catchError(err => {
-        patchState({
-          success: false
-        });
-        
-        throw new Error(err);
       }),
     );
   }

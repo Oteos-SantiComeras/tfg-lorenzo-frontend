@@ -7,8 +7,8 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select } from '@ngxs/store';
-import { AuthState } from '../auth/store/auth.state';
-import { Token } from '../auth/model/token';
+import { AuthState } from '../store/auth.state';
+import { Token } from './token';
 
 @Injectable({ providedIn: 'root' })
 export class TokenInterceptor implements HttpInterceptor {

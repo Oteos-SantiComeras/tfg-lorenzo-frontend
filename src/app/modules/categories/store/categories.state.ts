@@ -1,11 +1,11 @@
 import { CategoriesService } from './../categories.service';
 import { Category } from './../model/category';
-import { OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosTranslateService } from 'oteos-components-lib';
 import { Pagination } from '../../../models/pagination';
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { catchError, map, tap } from "rxjs/operators";
-import { CreateCategory, DeleteCategory, EditCategory, FetchCategories, SubscribeCategoriesWS, UnSubscribeCategoriesWS } from './categories.actions';
+import { CreateCategory, DeleteCategory, EditCategory, FetchCategories } from './categories.actions';
 
 export class CategoriesStateModel {
   categories: Category[];
@@ -200,29 +200,6 @@ export class CategoriesState {
       
         throw new Error(err);
       }));
-  }
-
-  @Action(SubscribeCategoriesWS)
-  public subscribeCategoriesWS(ctx: StateContext<CategoriesStateModel>) {
-    return this.categoriesService.getCategoriesBySocket().pipe(
-      map((change: boolean) => {
-        if(change){
-        let state = ctx.getState();
-        state = {
-          ...state,
-          notifyChangeCategories: !state.notifyChangeCategories,
-        };
-        ctx.setState({
-          ...state,
-        });
-      }
-      })
-    )
-  }
-
-  @Action(UnSubscribeCategoriesWS)
-  public unSubscribeCategoriesWS(ctx: StateContext<CategoriesStateModel>) {
-    this.categoriesService.removeSocket();
   }
 }
 

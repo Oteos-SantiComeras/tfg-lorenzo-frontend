@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PermissionsService } from './permissions.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { PermissionsState } from './store/permissions.state';
 import { OteosComponentsLibModule, OteosJoinPipe } from 'oteos-components-lib';

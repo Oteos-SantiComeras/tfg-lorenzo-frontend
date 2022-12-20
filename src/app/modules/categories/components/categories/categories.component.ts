@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash-es';
-import { FetchCategories, CreateCategory, EditCategory, DeleteCategory, UnSubscribeCategoriesWS } from './../../store/categories.actions';
+import { FetchCategories, CreateCategory, EditCategory, DeleteCategory } from './../../store/categories.actions';
 import { Category } from './../../model/category';
 import { CategoriesState } from './../../store/categories.state';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -7,7 +7,6 @@ import { Component, forwardRef, HostListener, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
 import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosModalService, OteosSelectedItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
-import { SubscribeCategoriesWS } from '../../store/categories.actions';
 
 @Component({
   selector: 'app-categories',
@@ -87,8 +86,6 @@ export class CategoriesComponent implements OnInit {
 
   /* Store Functions */
   notifyChangeCategories(){
-    this.store.dispatch(new SubscribeCategoriesWS());
-
     const sub = this.notifyChangeCategories$.subscribe({
       next: () => {
         this.store.dispatch(new FetchCategories({ filter: this.filter}))
@@ -431,6 +428,5 @@ export class CategoriesComponent implements OnInit {
   /* On Destroy Function */
   ngOnDestroy(): void {
    this.subManager.unsubscribe();
-   this.store.dispatch(new UnSubscribeCategoriesWS());
   }
 }

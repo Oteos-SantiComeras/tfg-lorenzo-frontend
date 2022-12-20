@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash-es';
-import { FetchCarts, UnSubscribeCartsWS } from './../../../cart/store/cart.actions';
-import { SubscribeOrdersWS, FetchOrders, DeleteOrder } from './../../store/orders.actions';
+import { FetchCarts } from './../../../cart/store/cart.actions';
+import { FetchOrders, DeleteOrder } from './../../store/orders.actions';
 import environment from 'src/environments/environment';
 import { Cart } from 'src/app/modules/cart/model/cart';
 import { CartsState } from './../../../cart/store/cart.state';
@@ -9,7 +9,7 @@ import { OrdersState } from './../../store/orders.state';
 import { Select, Store } from '@ngxs/store';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosModalService, OteosSelectedItem, OteosSelectItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
+import { OteosAction, OteosBlockItem, OteosCacheService, OteosConstantsService, OteosModalService, OteosSelectedItem, OteosSpinnerService, OteosTableCol, OteosTableItem, OteosThemeService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
 import { Product } from 'src/app/modules/products/model/product';
 
 @Component({
@@ -108,8 +108,6 @@ export class OrdersComponent implements OnInit {
 
   /* Store Functions */
   notifyChangeOrders(){
-    this.store.dispatch(new SubscribeOrdersWS());
-
     const sub = this.notifyChangeOrders$.subscribe({
       next: () => {
         this.store.dispatch(new FetchOrders({ filter: this.filter}))
@@ -390,7 +388,6 @@ export class OrdersComponent implements OnInit {
   /* On Destroy Function */
   ngOnDestroy(): void {
    this.subManager.unsubscribe();
-   this.store.dispatch(new UnSubscribeCartsWS());
   }
 }
 

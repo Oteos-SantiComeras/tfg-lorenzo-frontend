@@ -2,7 +2,7 @@ import { RoleState } from './../roles/store/roles.state';
 import { UsersService } from './users.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { UsersState } from './store/users.state';
 import { UsersComponent } from './components/users/users.component';

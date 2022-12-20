@@ -4,9 +4,7 @@ import { Injectable } from '@angular/core';
 import { OteosJoinPipe } from 'oteos-components-lib';
 import { Observable } from 'rxjs';
 import { Pagination } from 'src/app/models/pagination';
-import { WsBackendService } from 'src/app/services/websockets.service';
 import environment from 'src/environments/environment';
-import { WS_ORDERS } from 'src/app/constants/websockets.constants';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +14,6 @@ export class OrdersService {
   constructor(
     private readonly joinPipe: OteosJoinPipe,
     private readonly http: HttpClient,
-    private readonly wsBackendService: WsBackendService
   ) {}
 
   fetchOrders(filter: any): Observable<Pagination> {
@@ -60,13 +57,4 @@ export class OrdersService {
   deleteOrder(_id: string): Observable<boolean> {
     return this.http.delete<boolean>(environment.apiUrl + `/orders/${_id}`);
   }
-
-  getOrdersBySocket(): any {
-    return this.wsBackendService.getMessage(WS_ORDERS);
-  }
-
-  removeSocket(): any {
-    this.wsBackendService.removeListenerMessage(WS_ORDERS);
-  }
-
 }

@@ -1,11 +1,9 @@
-import { Message } from './../../../emailer/model/message';
-import { AddNewUserNoAuth, SendRegisterEmail } from './../../store/users.actions';
+import { AddNewUserNoAuth } from './../../store/users.actions';
 import { User } from '../../model/user';
 import { Router } from '@angular/router';
-import { OteosCacheService, OteosConstantsService, OteosSelectItem, OteosSpinnerService, OteosToastService, OteosTranslateService, OteosConfigService } from 'oteos-components-lib';
+import { OteosCacheService, OteosSpinnerService, OteosToastService, OteosTranslateService } from 'oteos-components-lib';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Subscription } from 'rxjs';
 import { UsersState } from '../../store/users.state';
 import { Role } from 'src/app/modules/roles/model/role';
 
@@ -16,9 +14,6 @@ import { Role } from 'src/app/modules/roles/model/role';
 })
 
 export class RegisterComponent implements OnInit {
-  private subManager: Subscription;
-
-  /* */
   public newUser: User;
   public pwdConfirm: string;
 
@@ -26,18 +21,14 @@ export class RegisterComponent implements OnInit {
   public type_input_pwd_confirm: string;
 
   constructor(
-    private readonly configService: OteosConfigService,
     private readonly cacheService: OteosCacheService,
     public readonly translateService: OteosTranslateService,
     private readonly spinnerService: OteosSpinnerService,
     private readonly toastService: OteosToastService,
-    private readonly constantsService: OteosConstantsService,
     private readonly store: Store,
     private readonly router: Router
   ) {
     this.cacheService.setElement("title", this.translateService.getTranslate('label.register.cache.title'));
-    this.subManager = new Subscription();
-
 
     this.newUser = new User();
     this.pwdConfirm = '';
@@ -64,7 +55,6 @@ export class RegisterComponent implements OnInit {
             this.store.selectSnapshot(UsersState.successMsg)
           );
 
-          this.sendRegisterEmail($event);
           this.onClickComeBack();
         }else{
           this.toastService.addErrorMessage(
@@ -80,55 +70,6 @@ export class RegisterComponent implements OnInit {
         this.toastService.addErrorMessage(
           this.translateService.getTranslate('label.error.title'),
           this.store.selectSnapshot(UsersState.errorMsg)
-        );
-
-        this.spinnerService.showSpinner();
-      }
-    });
-  }
-
-  sendRegisterEmail(user: User) {
-    let emailBody: string = "";
-    emailBody += `<!DOCTYPE html>`;
-    emailBody += `<html>`;
-    emailBody += `  <head>`;
-    emailBody += `    <style>`;
-    emailBody += `      h3 { color: #002c77; }`;
-    emailBody += `    </style>`;
-    emailBody += `  </head>`;
-    emailBody += `  <body>`;
-    emailBody += `    <h3>¡${this.translateService.getTranslate('label.general.welcome')} ${user.userName}!</h3>`;
-    emailBody += `    <p>${this.translateService.getTranslate('label.register.email.text.1')}</p>`;
-    emailBody += `  </body>`;
-    emailBody += `</html>`;
-
-    let message: Message = new Message();
-    message.subject = `${this.translateService.getTranslate('label.register.email.subject.app.title')} - ${this.translateService.getTranslate('label.register.email.subject')}`;
-    message.receivers = [ user.email ];
-    message.text = emailBody;
-
-    this.store.dispatch(new SendRegisterEmail({ message: message })).subscribe({
-      next: () => {
-        const success = this.store.selectSnapshot(UsersState.success);
-
-        if(success){
-          /* this.toastService.addSuccessMessage(
-            this.translateService.getTranslate('label.success.title'),
-            this.translateService.getTranslate('label.register.send.email.succuess')
-          ); */
-        }else{
-          this.toastService.addErrorMessage(
-            this.translateService.getTranslate('label.error.title'),
-            this.translateService.getTranslate('label.register.send.email.error')
-          );
-        }
-        this.spinnerService.hideSpinner();
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.addErrorMessage(
-          this.translateService.getTranslate('label.error.title'),
-          this.translateService.getTranslate('label.register.send.email.errror')
         );
 
         this.spinnerService.showSpinner();

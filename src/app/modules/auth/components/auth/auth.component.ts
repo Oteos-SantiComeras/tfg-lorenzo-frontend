@@ -1,16 +1,14 @@
 import { User } from './../../../users/model/user';
-import { Message } from './../../../emailer/model/message';
 import { Router } from '@angular/router';
 import { LoginDto } from './../../model/login.dto';
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA, forwardRef } from '@angular/core';
-import { ILogin, OteosCacheService, OteosToastService, OteosConstantsService, OteosTranslateService, OteosModalService, OteosSpinnerService, OteosConfigService } from 'oteos-components-lib';
-import { Login, PasswordRecovery, SendPasswordRecoveryEmail } from '../../store/auth.actions';
+import { Component, OnInit, forwardRef } from '@angular/core';
+import { ILogin, OteosCacheService, OteosToastService, OteosConstantsService, OteosTranslateService, OteosModalService } from 'oteos-components-lib';
+import { Login, PasswordRecovery } from '../../store/auth.actions';
 import { first } from 'rxjs';
 import { AuthState } from '../../store/auth.state';
 import { Store } from '@ngxs/store';
 import { Util } from 'src/app/utils/util';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import environment from 'src/environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -29,8 +27,6 @@ export class AuthComponent implements OnInit {
   public emailRecovery: string;
 
   constructor(
-    private readonly configService: OteosConfigService,
-    private readonly spinnerService: OteosSpinnerService,
     private readonly toastService: OteosToastService,
     public readonly translateService: OteosTranslateService,
     public readonly cacheService: OteosCacheService,
@@ -47,7 +43,7 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
 
   }
-  // PasswordRecovery
+
   /* Store Actions */
   login(login: LoginDto) {
     this.store.dispatch(new Login(login)).pipe(first()).subscribe({
@@ -82,13 +78,8 @@ export class AuthComponent implements OnInit {
         const success = this.store.selectSnapshot(AuthState.success);
 
         if (success) {
-          /* this.toastService.addSuccessMessage(
-            this.translateService.getTranslate("label.success.title"),
-            this.translateService.getTranslate('label.auth.pwd.recovery.success')
-          ); */
-  
           const recoveryUser: User = this.store.selectSnapshot(AuthState.recoveryUser);
-          this.sendPwdRecoveryEmail(recoveryUser);
+          this.router.navigate(['/auth/recovery/' + recoveryUser.pwdRecoveryToken] )
         } else {
           this.toastService.addErrorMessage(
             this.translateService.getTranslate("label.error.title"),
@@ -102,70 +93,6 @@ export class AuthComponent implements OnInit {
         );
       }
     });
-  }
-
-  sendPwdRecoveryEmail(user: User) {
-    this.spinnerService.showSpinner();
-
-    let link: string = `${environment.httpsEnabled ? 'https://' : 'http://'}`;
-    link += `${environment.hostname}:${environment.appPort}`;
-    link += `/#/auth/recovery/${user.pwdRecoveryToken}`;
-
-    let emailBody: string = "";
-    emailBody += `<!DOCTYPE html>`;
-    emailBody += `<html>`;
-    emailBody += `  <head>`;
-    emailBody += `    <style>`;
-    emailBody += `      h3 { color: #002c77; }`;
-    emailBody += `    </style>`;
-    emailBody += `  </head>`;
-    emailBody += `  <body>`;
-    emailBody += `    <h3>¡${this.translateService.getTranslate('label.general.hello')} ${user.userName}!</h3>`;
-    emailBody += `    <p>`;
-    emailBody += `      ${this.translateService.getTranslate('label.auth.pwd.recovery.email.text.1')} <br>`;
-    emailBody += `      ${this.translateService.getTranslate('label.auth.pwd.recovery.email.text.2')} <br>`;
-    emailBody += `      ${this.translateService.getTranslate('label.auth.pwd.recovery.email.text.3')}: `;
-    emailBody += `      <a href="${link}" target="_blank">${this.translateService.getTranslate('label.auth.pwd.recovery.email.text.link')}</a> <br>`
-    emailBody += `    </p>`;
-    emailBody += `  </body>`;
-    emailBody += `</html>`;
-
-    let message: Message = new Message();
-    message.subject = `${this.translateService.getTranslate('label.auth.pwd.recovery.email.subject.app.title')} - ${this.translateService.getTranslate('label.auth.pwd.recovery.email.subject')}`;
-    message.receivers = [ user.email ];
-    message.text = emailBody;
-
-    this.store.dispatch(new SendPasswordRecoveryEmail({ message: message })).subscribe({
-      next: () => {
-        const success = this.store.selectSnapshot(AuthState.success);
-
-        if(success){
-          this.toastService.addSuccessMessage(
-            this.translateService.getTranslate('label.success.title'),
-            this.translateService.getTranslate('label.auth.pwd.recovery.email.success')
-          );
-
-        }else{
-          this.toastService.addErrorMessage(
-            this.translateService.getTranslate('label.error.title'),
-            this.translateService.getTranslate('label.auth.pwd.recovery.email.error')
-          );
-        }
-
-        this.spinnerService.hideSpinner();
-      },
-      error: (err) => {
-        console.error(err);
-        this.toastService.addErrorMessage(
-          this.translateService.getTranslate('label.error.title'),
-          this.translateService.getTranslate('label.auth.pwd.recovery.email.error')
-        );
-
-        this.spinnerService.hideSpinner();
-      }
-    });
-
-    this.spinnerService.hideSpinner();
   }
 
   /* Login Actions */
