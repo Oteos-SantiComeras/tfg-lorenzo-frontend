@@ -2,8 +2,8 @@ import { OteosToastService, OteosTranslateService } from 'oteos-components-lib';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthState } from '../modules/auth/store/auth.state';
-import { roleList } from '../constants/roles.constants';
+import { AuthState } from '../store/auth.state';
+import { roleList } from '../../../constants/roles.constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

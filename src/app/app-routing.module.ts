@@ -16,7 +16,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LogoutComponent } from './modules/auth/components/logout/logout.component';
 import { roleList } from './constants/roles.constants';
-import { AuthGuard } from './services/auth.guard.service';
+import { AuthGuard } from './modules/auth/services/auth.guard.service';
 import { PasswordRecoveryComponent } from './modules/auth/components/password-recovery/password-recovery.component';
 
 const routes: Routes = [

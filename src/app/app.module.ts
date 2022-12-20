@@ -18,8 +18,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { AuthGuard } from './services/auth.guard.service';
-import { TokenInterceptor } from './modules/auth/model/token.interceptor';
+import { AuthGuard } from './modules/auth/services/auth.guard.service';
+import { TokenInterceptor } from './modules/auth/services/token.interceptor';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CartModule } from './modules/cart/cart.module';
 
