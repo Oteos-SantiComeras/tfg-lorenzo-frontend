@@ -27,12 +27,6 @@ environment.apiUrl = `${environment.httpsEnabled ? 'https://' : 'http://'}${
     : `${environment.hostname}:${environment.apiPort}`
 }/${environment.globalPrefix}/${environment.apiVersion}`;
 
-/* environment.apiUrl = `${environment.httpsEnabled ? 'https://' : 'http://'}${
-  environment.domain && environment.production
-    ? environment.domain
-    : `${environment.hostname}:${environment.apiPort}`
-}/${environment.apiVersion}`; */
-
 environment.staticAssetsUrl = `${
   environment.httpsEnabled ? 'https://' : 'http://'
 }${
